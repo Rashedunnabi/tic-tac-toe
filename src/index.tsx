@@ -6,7 +6,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
 
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 
 export default function App() {
     const [fontsLoaded] = useFonts({
@@ -17,7 +17,7 @@ export default function App() {
 
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
-            await SplashScreen.hideAsync();
+            await SplashScreen.preventAutoHideAsync();
         }
     }, [fontsLoaded]);
 
