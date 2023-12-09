@@ -3,7 +3,6 @@ import React, { ReactElement, ReactNode } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
-import { StatusBar } from "expo-status-bar";
 
 type AppBootstrapProps = {
     children: ReactNode;
