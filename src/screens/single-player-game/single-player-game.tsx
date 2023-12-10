@@ -1,8 +1,8 @@
-import { SafeAreaView, Dimensions } from "react-native";
+import { SafeAreaView, Dimensions, View } from "react-native";
 import React, { ReactElement, useEffect, useState, useRef } from "react";
-import { GradientBackground } from "@components";
+import { GradientBackground, Text } from "@components";
 import styles from "./single-player-game.styles";
-import { Board } from "@components";
+import { Board, Button } from "@components";
 import { BoardState, isEmpty, isTerminal, getBestMove, Cell, useSounds } from "@utils";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
@@ -88,6 +88,23 @@ export default function Game(): ReactElement {
     return (
         <GradientBackground>
             <SafeAreaView style={styles.container}>
+                <View>
+                    <Text style={styles.difficulty}>Deficulty:Hard</Text>
+                    <View style={styles.results}>
+                        <View style={styles.resultsBox}>
+                            <Text style={styles.resultsTitle}>Wins </Text>
+                            <Text style={styles.resultsCount}> 0</Text>
+                        </View>
+                        <View style={styles.resultsBox}>
+                            <Text style={styles.resultsTitle}>Draws </Text>
+                            <Text style={styles.resultsCount}> 0</Text>
+                        </View>
+                        <View style={styles.resultsBox}>
+                            <Text style={styles.resultsTitle}>Losses </Text>
+                            <Text style={styles.resultsCount}> 0</Text>
+                        </View>
+                    </View>
+                </View>
                 <Board
                     disabled={Boolean(isTerminal(state)) || turn !== "HUMAN"}
                     onCellPressed={cell => {
@@ -97,6 +114,11 @@ export default function Game(): ReactElement {
                     gameResult={gameResult}
                     size={SCREEN_WIDTH - 60}
                 />
+
+                <View style={styles.modal}>
+                    <Text style={styles.modalText}>You Won</Text>
+                    <Button title="Play Again" />
+                </View>
             </SafeAreaView>
         </GradientBackground>
     );
