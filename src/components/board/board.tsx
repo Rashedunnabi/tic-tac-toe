@@ -3,6 +3,7 @@ import React, { ReactElement } from "react";
 import Text from "../text/text";
 import { BoardState, BoardResult } from "@utils";
 import BoardLine from "./board-line";
+import styles from "./board.styles";
 
 type BoardProps = {
     state: BoardState;
@@ -21,33 +22,29 @@ export default function Board({
 }: BoardProps): ReactElement {
     return (
         <View
-            style={{
-                width: size,
-                height: size,
-                backgroundColor: "green",
-                flexDirection: "row",
-                flexWrap: "wrap"
-            }}
+            style={[
+                styles.board,
+                {
+                    width: size,
+                    height: size
+                }
+            ]}
         >
             {state.map((cell, index) => {
                 return (
                     <TouchableOpacity
                         disabled={cell !== null || disabled}
                         onPress={() => onCellPressed && onCellPressed(index)}
-                        style={{
-                            width: "33.333333%",
-                            height: "33.333333%",
-                            backgroundColor: "#fff",
-                            borderWidth: 1,
-                            alignItems: "center",
-                            justifyContent: "center"
-                        }}
+                        style={[styles.cell, styles[`cell${index}` as "cell"]]}
                         key={index}
                     >
                         <Text
-                            style={{
-                                fontSize: size / 8
-                            }}
+                            style={[
+                                styles.cellText,
+                                {
+                                    fontSize: size / 7
+                                }
+                            ]}
                         >
                             {cell}
                         </Text>
@@ -55,12 +52,7 @@ export default function Board({
                 );
             })}
 
-            {true && (
-                <BoardLine
-                    size={size}
-                    gameResult={{ winner: "o", diagonal: "MAIN", direction: "D" }}
-                />
-            )}
+            {gameResult && <BoardLine size={size} gameResult={gameResult} />}
         </View>
     );
 }
