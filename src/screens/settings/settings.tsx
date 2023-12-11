@@ -1,4 +1,4 @@
-import { ScrollView, TouchableOpacity, View, Switch } from "react-native";
+import { ScrollView, TouchableOpacity, View, Switch, Alert } from "react-native";
 import React, { ReactElement, useEffect, useState } from "react";
 import { GradientBackground, Text } from "@components";
 import styles from "./settings.styles";
@@ -25,7 +25,22 @@ const defaultSettings: SettingsType = {
 };
 
 export default function Settings(): ReactElement | null {
-    const [settings, setSettings] = useState<SettingsType | null>(false);
+    const [settings, setSettings] = useState<SettingsType | null>(null);
+
+    const saveSetting = async <T extends keyof SettingsType>(
+        setting: T,
+        value: SettingsType[T]
+    ) => {
+        try {
+            const oldSettings = settings ? settings : defaultSettings;
+            const newSettings = { ...oldSettings, [setting]: value };
+            const jsonSettings = JSON.stringify(newSettings);
+            await AsyncStorage.setItem("@settings", jsonSettings);
+            setSettings(newSettings);
+        } catch (error) {
+            Alert.alert("Error!", "An error has occured !");
+        }
+    };
 
     const loadSettings = async () => {
         try {
@@ -51,6 +66,12 @@ export default function Settings(): ReactElement | null {
                         {Object.keys(difficulties).map(level => {
                             return (
                                 <TouchableOpacity
+                                    onPress={() => {
+                                        saveSetting(
+                                            "difficulty",
+                                            level as keyof typeof difficulties
+                                        );
+                                    }}
                                     style={[
                                         styles.choice,
                                         {
@@ -90,9 +111,9 @@ export default function Settings(): ReactElement | null {
                         }}
                         thumbColor={colors.lightGreen}
                         value={settings.sounds}
-                        // onValueChange={() => {
-                        //     setState(!state);
-                        // }}
+                        onValueChange={() => {
+                            saveSetting("sounds", !settings.sounds);
+                        }}
                     />
                 </View>
                 <View style={(styles.field, styles.switchField)}>
@@ -104,9 +125,9 @@ export default function Settings(): ReactElement | null {
                         }}
                         thumbColor={colors.lightGreen}
                         value={settings.haptics}
-                        // onValueChange={() => {
-                        //     setState(!state);
-                        // }}
+                        onValueChange={() => {
+                            saveSetting("haptics", !settings.haptics);
+                        }}
                     />
                 </View>
             </ScrollView>
