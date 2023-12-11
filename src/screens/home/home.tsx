@@ -1,12 +1,12 @@
 import { View, ScrollView, Image } from "react-native";
 import React, { ReactElement } from "react";
 import styles from "./home.styles";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@config/navigator";
 import { GradientBackground, Button } from "@components";
 
 type HomeProps = {
-    navigation: NativeStackNavigationProp<StackNavigatorParams, "Home">;
+    navigation: StackNavigationProp<StackNavigatorParams, "Home">;
 };
 
 export default function Home({ navigation }: HomeProps): ReactElement {
@@ -24,7 +24,13 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                     />
                     <Button style={styles.button} title="MultiPlayer" />
                     <Button style={styles.button} title="Login" />
-                    <Button style={styles.button} title="Settings" />
+                    <Button
+                        onPress={() => {
+                            navigation.navigate("Settings");
+                        }}
+                        style={styles.button}
+                        title="Settings"
+                    />
                 </View>
             </ScrollView>
         </GradientBackground>
