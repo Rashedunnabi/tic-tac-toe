@@ -1,11 +1,23 @@
 {
   "version": 1,
   "serviceConfiguration": {
-    "apiName": "tictactoe",
+    "apiName": "ticTacToe",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "expirationTime": 7
-    }
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authtictactoeb2c59e72"
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 60,
+        "apiKeyExpirationDate": "2024-03-02T18:19:46.265Z",
+        "keyDescription": "test"
+      },
+      {
+        "mode": "AWS_IAM"
+      }
+    ],
+    "conflictResolution": {}
   }
 }
